@@ -9,8 +9,6 @@ correctamente. Tenga en cuenta datos faltantes y duplicados.
 import pandas as pd
 import re
 from datetime import datetime
-
-def clean_data():
     
 def clean_data():
     df = pd.read_csv("solicitudes_credito.csv", sep=";", index_col = 0)
