@@ -10,13 +10,15 @@ import pandas as pd
 
 
 def clean_data():
+    import re
+    from datetime import datetime
 
     df[["sexo", "tipo_de_emprendimiento","idea_negocio","barrio","línea_credito"]] = df[["sexo", "tipo_de_emprendimiento","idea_negocio","barrio","línea_credito"]].apply(lambda x: x.astype(str).str.lower())
     df = df.replace(to_replace = "(_)|(-)", value = " ", regex = True)    
     df = df.replace(to_replace = "[,$]|(\.00$)", value = "", regex = True)
 
-    df.comuna_ciudadano = df.comuna_ciudadano.astype(int)
-    df.fecha_de_beneficio = pd.to_datetime(df.fecha_de_beneficio, dayfirst=True)
+    df.comuna_ciudadano = df.comuna_ciudadano.astype(float)
+    df['fecha_de_beneficio'] = df['fecha_de_beneficio'].apply(lambda x: datetime.strptime(x, "%Y/%m/%d") if (len(re.findall("^\d+/", x)[0]) - 1) == 4 else datetime.strptime(x, "%d/%m/%Y"))
     df.monto_del_credito = df.monto_del_credito.astype(int)
 
     df.dropna(axis = 0, inplace = True)
