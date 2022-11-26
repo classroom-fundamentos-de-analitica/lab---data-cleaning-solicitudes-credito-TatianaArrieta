@@ -16,8 +16,10 @@ def clean_data():
     df.dropna(axis = 0, inplace = True)
     df.drop_duplicates(inplace = True)
 
-    df[["sexo", "tipo_de_emprendimiento","idea_negocio","barrio","línea_credito"]] = df[["sexo", "tipo_de_emprendimiento","idea_negocio","barrio","línea_credito"]].apply(lambda x: x.astype(str).str.lower())
-    df = df.replace(to_replace = "(_)|(-)", value = " ", regex = True)    
+    for column in ['sexo', 'tipo_de_emprendimiento', 'idea_negocio', 'línea_credito', 'barrio']:
+        df.column = df.column.str.lower()
+        df.column = df.column.apply(lambda x: x.replace('_', ' '))
+        df.column = df.column.apply(lambda x: x.replace('-', ' '))
 
     df.comuna_ciudadano = df.comuna_ciudadano.astype(float)
     df['fecha_de_beneficio'] = df['fecha_de_beneficio'].apply(lambda x: datetime.strptime(x, "%Y/%m/%d") if (len(re.findall("^\d+/", x)[0]) - 1) == 4 else datetime.strptime(x, "%d/%m/%Y"))
